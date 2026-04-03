@@ -1,0 +1,9 @@
+{
+  "appId": "com.location.poi.app",
+  "appName": "poi-frontend",
+  "webDir": "dist",
+  "bundledWebRuntime": false,
+  "server": {
+    "cleartext": true
+  }
+}

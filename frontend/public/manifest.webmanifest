@@ -1,0 +1,9 @@
+{
+  "name": "POI Detector",
+  "short_name": "POI",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2f855a",
+  "icons": []
+}

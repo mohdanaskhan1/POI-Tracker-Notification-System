@@ -1,0 +1,17 @@
+#!/bin/sh
+set -e
+WRAPPER_JAR=".mvn/wrapper/maven-wrapper.jar"
+PROPERTIES_FILE=".mvn/wrapper/maven-wrapper.properties"
+WRAPPER_URL=$(grep -E '^wrapperUrl=' "$PROPERTIES_FILE" | sed -e 's/wrapperUrl=//')
+if [ ! -f "$WRAPPER_JAR" ]; then
+  if command -v curl >/dev/null 2>&1; then
+    curl -fsSL "$WRAPPER_URL" -o "$WRAPPER_JAR"
+  elif command -v wget >/dev/null 2>&1; then
+    wget -q "$WRAPPER_URL" -O "$WRAPPER_JAR"
+  else
+    echo "No curl or wget found to download Maven Wrapper JAR"
+    exit 1
+  fi
+fi
+exec "${JAVA_HOME:+$JAVA_HOME/bin/}java" -classpath "$WRAPPER_JAR" org.apache.maven.wrapper.MavenWrapperMain "$@"
+
