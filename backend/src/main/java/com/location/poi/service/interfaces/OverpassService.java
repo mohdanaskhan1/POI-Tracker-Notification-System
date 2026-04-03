@@ -4,5 +4,5 @@ import com.location.poi.dto.PoiDto;
 import java.util.List;
 
 public interface OverpassService {
-    List<PoiDto> searchNearby(double lat, double lon, int radiusMeters, List<String> categories);
+    List<PoiDto> searchNearby(double lat, double lon, Integer radius, String categoriesCsv);
 }

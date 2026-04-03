@@ -28,7 +28,15 @@ public class OverpassServiceImpl implements OverpassService {
     private String overpassUrls;
     private static final Logger log = LoggerFactory.getLogger(OverpassServiceImpl.class);
 
-    public List<PoiDto> searchNearby(double lat, double lon, int radiusMeters, List<String> categories) {
+    @Override
+    public List<PoiDto> searchNearby(double lat, double lon, Integer radius, String categoriesCsv) {
+        int radiusMeters = radius != null ? Math.max(50, Math.min(1000, radius)) : 300;
+        String catsCsv = categoriesCsv != null ? categoriesCsv : "fuel,restaurant,shopping_mall";
+        List<String> categories = Arrays.stream(catsCsv.split(","))
+                .map(String::trim)
+                .filter(s -> !s.isEmpty())
+                .collect(Collectors.toList());
+        
         log.debug("overpass request lat={} lon={} radius={} categories={}", lat, lon, radiusMeters, categories);
         
         String query = buildQuery(lat, lon, radiusMeters, categories);

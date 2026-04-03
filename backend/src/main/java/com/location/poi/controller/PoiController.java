@@ -10,9 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/pois")
@@ -28,15 +26,11 @@ public class PoiController {
     public ResponseEntity<List<PoiDto>> nearby(
             @RequestParam("lat") double lat,
             @RequestParam("lon") double lon,
-            @RequestParam(value = "radius", required = false, defaultValue = "300") int radius,
+            @RequestParam(value = "radius", required = false, defaultValue = "300") Integer radius,
             @RequestParam(value = "categories", required = false, defaultValue = "fuel,restaurant,shopping_mall") String categoriesCsv
     ) {
-        List<String> categories = Arrays.stream(categoriesCsv.split(","))
-                .map(String::trim)
-                .filter(s -> !s.isEmpty())
-                .collect(Collectors.toList());
         try {
-            List<PoiDto> pois = overpassService.searchNearby(lat, lon, radius, categories);
+            List<PoiDto> pois = overpassService.searchNearby(lat, lon, radius, categoriesCsv);
             return ResponseEntity.ok(pois);
         } catch (IllegalStateException ex) {
             log.warn("nearby upstream unavailable");
